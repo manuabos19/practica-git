@@ -1,0 +1,253 @@
+Los pasos a ejecutar son los siguientes (los pasos en negrita indican que hay una pregunta
+asociada):
+1) Crear un repositorio en GitHub y clónalo en tu equipo
+2) Crear un archivo git-nuestro.md con el contenido:
+Git nuestro
+Git nuestro que estas en los repos
+Comprimidos sean tus commits
+Venga a nosotros tu log
+En el local como en el remote
+Danos hoy nuestro pull de cada día
+Perdona nuestros conflictos
+Como también perdonamos los de otros geeks
+No nos dejes caer en detached HEAD
+y líbranos de SVN
+git commit --amend
+
+3) Añadir git-nuestro.md al staging area
+ git add .\git-nuestro.md
+
+
+4) Mover lo que hay en el staging area al repositorio
+git commit -m "Añadimos el archivo git-nuestro.md al repositorio"
+[main (root-commit) 366ab75] Añadimos el archivo git-nuestro.md al repositorio
+ 1 file changed, 11 insertions(+)
+ create mode 100644 git-nuestro.md
+
+5) Crear una rama llamada “styled”
+git branch styled
+
+6) Listar las ramas que hay en el repositorio
+git branch
+* main
+  styled
+7) Moverse a la rama “styled”
+git checkout styled
+Switched to branch 'styled'
+
+8) Comprobar que se está en la rama correcta
+git branch
+  main
+* styled
+
+9) Modificar en el archivo git-nuestro.md:
+*Git* nuestro que estás en los repos
+Comprimidos sean tus *commits*
+Venga a nosotros tu *log*
+En el local como en el *remote*
+Danos hoy nuestro *pull* de cada día
+Perdona nuestros *conflictos*
+Como también perdonamos los de otros geeks
+No nos dejes caer en *detached HEAD*
+y líbranos de *SVN*
+`git commit --amend`
+
+10) Añadir los cambios al staging area y luego pasarlos al repositorio
+git add .\git-nuestro.md
+git commit -m "Modificamos el archivo git-nuestro.md y lo añadimos al repositorio"
+[styled 7c0b474] Modificamos el archivo git-nuestro.md y lo añadimos al repositorio
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+ 
+ commit 7c0b47497a917e404fad1107babc07df452c2b75 (HEAD -> styled)
+Author: Manuel Abos <manuelabosmaria@gmail.com>
+Date:   Sat Sep 14 19:36:21 2024 +0200
+
+    Modificamos el archivo git-nuestro.md y lo añadimos al repositorio
+
+commit 366ab7541705ec838956d79d8f139b4502917a19 (main)
+Author: Manuel Abos <manuelabosmaria@gmail.com>
+Date:   Sat Sep 14 19:32:56 2024 +0200
+
+    Añadimos el archivo git-nuestro.md al repositorio
+ 
+11) Deshacer el último commit (perdiendo los cambios realizados en el working copy)
+ git reset --hard HEAD~1
+HEAD is now at 366ab75 Añadimos el archivo git-nuestro.md al repositorio
+12) Rehacer el último commit (el que acabamos de deshacer)
+ git reflog
+366ab75 (HEAD -> styled, main) HEAD@{0}: reset: moving to HEAD~1
+7c0b474 HEAD@{1}: commit: Modificamos el archivo git-nuestro.md y lo añadimos al repositorio
+366ab75 (HEAD -> styled, main) HEAD@{2}: checkout: moving from main to styled
+366ab75 (HEAD -> styled, main) HEAD@{3}: commit (initial): Añadimos el archivo git-nuestro.md al repositorio
+git reset --hard 7c0b474
+
+13) Hacer un merge con ‘main’ (styled absorbe a main)
+git merge main
+14) Volver a la rama main
+git checkout main
+15) Crear una nueva rama llamada “htmlify”
+git branch htmlify
+16) Cambiar a la rama htmlify
+git checkout htmlify
+Switched to branch 'htmlify'
+17) Modificar en el archivo git-nuestro.md:
+<p><em>Git</em> nuestro que estas en los repos<br />
+Comprimidos sean tus <em>commits</em><br />
+Venga a nosotros tu <em>log</em><br />
+En el local como en el <em>remote</em><br />
+Danos hoy nuestro <em>pull</em> de cada día<br />
+Perdona nuestros <em>conflictos</em><br />
+Como también perdonamos los de otros geeks<br />
+No nos dejes caer en <em>detached HEAD</em><br />
+y líbranos de <em>SVN</em><br />
+<code>git commit --amend</code></p>
+18) Hacer un commit
+git commit -m "Modificamos el archivo en la rama htmlify"
+[htmlify d58737e] Modificamos el archivo en la rama htmlify
+ 1 file changed, 10 insertions(+), 11 deletions(-)
+19) Hacer un merge de “htmlify” en “styled” (styled absorbe a htmlify)
+git checkout styled - git merge htmlify
+Auto-merging git-nuestro.md
+CONFLICT (content): Merge conflict in git-nuestro.md
+Automatic merge failed; fix conflicts and then commit the result.
+20) Si hay conflictos, deberemos resolverlos quedándonos con el contenido de la rama “styled”.
+*   27a00e6 (HEAD -> styled) Resuelvo el conflicto
+|\
+| * d58737e (htmlify) Modificamos el archivo en la rama htmlify
+* | 7c0b474 Modificamos el archivo git-nuestro.md y lo añadimos al repositorio
+|/
+* 366ab75 (main) Añadimos el archivo git-nuestro.md al repositorio
+21) Desde “main”, hacer un merge con “styled”
+git branch
+  htmlify
+* main
+  styled
+git merge styled
+Updating 366ab75..27a00e6
+Fast-forward
+ git-nuestro.md | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+22) Crear una rama “title” y cambiarse a esa rama
+git branch title - git checkout title
+Switched to branch 'title'
+23) Añadir un título (a tu gusto) al archivo git-nuestro.md y hacer un commit.
+git add .
+git commit -m "Añadimos un titulo inventado"
+[title ad30942] Añadimos un titulo inventado
+ 1 file changed, 1 insertion(+)
+
+24) Volver a la rama main
+git checkout main
+Switched to branch 'main'
+25) Dibujar el diagrama
+git log --oneline --graph --all --decorate
+* ad30942 (title) Añadimos un titulo inventado
+*   27a00e6 (HEAD -> main, styled) Resuelvo el conflicto
+|\
+| * d58737e (htmlify) Modificamos el archivo en la rama htmlify
+* | 7c0b474 Modificamos el archivo git-nuestro.md y lo añadimos al repositorio
+|/
+* 366ab75 Añadimos el archivo git-nuestro.md al repositorio
+26) Hacer un merge “no fast-forward” de “title” en “main” (main absorbe a title)
+git merge --no-ff title
+Merge made by the 'ort' strategy.
+ git-nuestro.md | 1 +
+ 1 file changed, 1 insertion(+)
+ git log --oneline --graph --all --decorate
+*   ec7a61f (HEAD -> main) Merge branch 'title'
+|\
+| * ad30942 (title) Añadimos un titulo inventado
+|/
+*   27a00e6 (styled) Resuelvo el conflicto
+|\
+| * d58737e (htmlify) Modificamos el archivo en la rama htmlify
+* | 7c0b474 Modificamos el archivo git-nuestro.md y lo añadimos al repositorio
+|/
+* 366ab75 Añadimos el archivo git-nuestro.md al repositorio
+27) Deshacer el merge (sin perder los cambios del working copy)
+git reset HEAD~1
+Unstaged changes after reset:
+M       git-nuestro.md
+28) Descartar los cambios
+git restore git-nuestro.md
+29) Eliminar la rama “title”
+git branch -D title
+Deleted branch title (was ad30942).
+30) Rehacer el merge que hemos deshecho
+git reset ec7a61f
+Unstaged changes after reset:
+M       git-nuestro.md
+31) Volver a main y eliminar el resto de ramas
+git branch -D styled
+Deleted branch styled (was 27a00e6).
+git branch -D htmlify
+Deleted branch htmlify (was d58737e).
+32) Volver al commit inicial cuando se creó el poema
+366ab75 HEAD@{40}: commit (initial): Añadimos el archivo git-nuestro.md al repositorio
+git checkout 366ab75
+Note: switching to '366ab75'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 366ab75 Añadimos el archivo git-nuestro.md al r
+33) Volver al estado final, cuando pusimos título al poema
+ad30942 HEAD@{10}: commit: Añadimos un titulo inventado
+git checkout ad30942
+34) Crear los siguientes tags:
+inicial: en el primer commit
+styled: modificación del paso 10
+htmlify: modificación del paso 17-18
+title: modificación del paso 30
+git log --oneline --graph --all --decorate
+*   ec7a61f (main) Merge branch 'title'
+|\
+| * ad30942 (HEAD, tag: title) Añadimos un titulo inventado
+|/
+*   27a00e6 Resuelvo el conflicto
+|\
+| * d58737e (tag: htmlify) Modificamos el archivo en la rama htmlify
+* | 7c0b474 (tag: styled) Modificamos el archivo git-nuestro.md y lo añadimos al repositorio
+|/
+* 366ab75 (tag: inicial) Añadimos el archivo git-nuestro.md al repositorio
+35) Ir al tag htmlify
+git checkout htmlify
+Previous HEAD position was ad30942 Añadimos un titulo inventado
+HEAD is now at d58737e Modificamos el archivo en la rama htmlify
+
+D:\Bootcamp IA\Curso Git\practica-git>git log --oneline --graph --all --decorate
+*   ec7a61f (main) Merge branch 'title'
+|\
+| * ad30942 (tag: title) Añadimos un titulo inventado
+|/
+*   27a00e6 Resuelvo el conflicto
+|\
+| * d58737e (HEAD, tag: htmlify) Modificamos el archivo en la rama htmlify
+* | 7c0b474 (tag: styled) Modificamos el archivo git-nuestro.md y lo añadimos al repositorio
+|/
+* 366ab75 (tag: inicial) Añadimos el archivo git-nuestro.md al repositorio
+36) Vuelve a la rama main
+git checkout main
+37) Sube a GitHub todas las ramas y todos los tags
+git push
+Enumerating objects: 14, done.
+Counting objects: 100% (14/14), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (14/14), 1.86 KiB | 953.00 KiB/s, done.
+Total 14 (delta 3), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (3/3), done.
+To https://github.com/manuabos19/practica-git.git
+ * [new branch]      main -> main
